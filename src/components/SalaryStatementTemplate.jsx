@@ -16,12 +16,12 @@ const SalaryStatementTemplate = forwardRef(({ data }, ref) => {
     <div 
       ref={ref} 
       style={{
-        width: '800px',
-        minHeight: '1000px',
+        width: '794px',  // A4 width at 96dpi
+        height: '1123px', // A4 height at 96dpi
         backgroundColor: 'white',
-        padding: '40px 60px',
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
-        color: '#333',
+        padding: '60px 50px',
+        fontFamily: "Times New Roman, serif",
+        color: '#000',
         display: 'flex',
         flexDirection: 'column'
       }}

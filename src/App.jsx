@@ -609,13 +609,13 @@ const App = () => {
           </div>
           
           {/* Teacher Documents */}
-          <div style={{ backgroundColor: 'white', width: '800px', minHeight: '1000px' }}>
+          <div style={{ backgroundColor: 'white', width: '794px', height: '1123px' }}>
             <TeachingCertificateTemplate ref={hiddenTeachingCertRef} data={formData} />
           </div>
-          <div style={{ backgroundColor: 'white', width: '800px', minHeight: '1000px' }}>
+          <div style={{ backgroundColor: 'white', width: '794px', height: '1123px' }}>
             <EmploymentLetterTemplate ref={hiddenEmploymentLetterRef} data={formData} />
           </div>
-          <div style={{ backgroundColor: 'white', width: '800px', minHeight: '1000px' }}>
+          <div style={{ backgroundColor: 'white', width: '794px', height: '1123px' }}>
             <SalaryStatementTemplate ref={hiddenSalaryStatementRef} data={formData} />
           </div>
           <div style={{ backgroundColor: 'white', width: '750px', height: '480px' }}>

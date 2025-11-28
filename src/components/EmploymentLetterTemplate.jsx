@@ -5,176 +5,235 @@ const EmploymentLetterTemplate = forwardRef(({ data }, ref) => {
     <div 
       ref={ref} 
       style={{
-        width: '800px',
-        minHeight: '1000px',
+        width: '794px',  // A4 width at 96dpi
+        height: '1123px', // A4 height at 96dpi  
         backgroundColor: 'white',
-        padding: '60px 80px',
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
-        color: '#333',
+        padding: '80px 60px',
+        fontFamily: "Times New Roman, serif",
+        color: '#000',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        lineHeight: '1.5'
       }}
     >
       {/* Letterhead */}
       <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        marginBottom: '40px',
-        paddingBottom: '20px',
-        borderBottom: '3px solid #dc2626'
+        textAlign: 'center',
+        marginBottom: '50px',
+        paddingBottom: '30px',
+        borderBottom: '2px solid #000'
       }}>
-        {data.universityLogo && (
-          <div style={{ marginRight: '30px' }}>
-            <img src={data.universityLogo} alt="Logo" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-          </div>
-        )}
-        <div>
-          <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#1f2937', marginBottom: '5px' }}>
-            {data.universityName}
-          </div>
-          <div style={{ fontSize: '16px', color: '#6b7280', marginBottom: '5px' }}>
-            Human Resources Department
-          </div>
-          <div style={{ fontSize: '14px', color: '#6b7280' }}>
-            {data.universityAddress}
-          </div>
+        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#000', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          {data.universityName}
+        </div>
+        <div style={{ fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: '500' }}>
+          Office of Human Resources
+        </div>
+        <div style={{ fontSize: '12px', color: '#000', marginBottom: '8px' }}>
+          {data.universityAddress}
+        </div>
+        <div style={{ fontSize: '12px', color: '#000' }}>
+          Tel: (555) 123-4500 | Fax: (555) 123-4501 | Email: hr@{data.universityName.toLowerCase().replace(/\s+/g, '')}.edu
         </div>
       </div>
 
-      {/* Date */}
-      <div style={{ textAlign: 'right', marginBottom: '40px', fontSize: '16px' }}>
-        {new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        })}
-      </div>
-
-      {/* Subject */}
-      <div style={{ marginBottom: '30px' }}>
-        <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
-          SUBJECT: Employment Verification Letter
+      {/* Date and Reference */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px', fontSize: '12px' }}>
+        <div>
+          <div style={{ marginBottom: '8px' }}>
+            <strong>Date:</strong> {new Date().toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </div>
+          <div>
+            <strong>Reference No:</strong> HR-{new Date().getFullYear()}-{Math.floor(Math.random() * 10000)}
+          </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ marginBottom: '8px' }}>
+            <strong>Employee ID:</strong> {data.employeeID}
+          </div>
+          <div>
+            <strong>Prepared by:</strong> {data.officials?.hr}
+          </div>
         </div>
       </div>
 
       {/* Salutation */}
-      <div style={{ marginBottom: '30px', fontSize: '16px' }}>
-        To Whom It May Concern,
+      <div style={{ marginBottom: '30px', fontSize: '14px' }}>
+        To Whom It May Concern:
+      </div>
+
+      {/* Subject Line */}
+      <div style={{ marginBottom: '25px', textAlign: 'center' }}>
+        <div style={{ fontSize: '16px', fontWeight: 'bold', textDecoration: 'underline' }}>
+          EMPLOYMENT VERIFICATION
+        </div>
       </div>
 
       {/* Body */}
-      <div style={{ flex: 1, fontSize: '16px', lineHeight: 1.6 }}>
+      <div style={{ flex: 1, fontSize: '14px', lineHeight: 1.6 }}>
         <div style={{ marginBottom: '25px' }}>
-          This letter serves to verify the employment of <strong>{data.teacherFullName}</strong> 
-          with {data.universityName}. The following information pertains to their current employment status:
+          This is to certify that <strong>{data.teacherFullName}</strong> is currently employed as a 
+          full-time faculty member at {data.universityName}. This verification is being issued at the 
+          employee's request for official purposes.
         </div>
 
         <div style={{ marginBottom: '30px' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '15px', textAlign: 'center' }}>
+            EMPLOYMENT DETAILS
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000' }}>
             <tbody>
-              <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold', width: '40%' }}>Full Name:</td>
-                <td style={{ padding: '8px 0' }}>{data.teacherFullName}</td>
+              <tr style={{ backgroundColor: '#f5f5f5' }}>
+                <td style={{ padding: '10px', fontWeight: 'bold', width: '35%', border: '1px solid #000' }}>Full Name:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.teacherFullName}</td>
               </tr>
               <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Employee ID:</td>
-                <td style={{ padding: '8px 0' }}>{data.employeeID}</td>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Employee ID:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.employeeID}</td>
+              </tr>
+              <tr style={{ backgroundColor: '#f5f5f5' }}>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Position/Title:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.position}</td>
               </tr>
               <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Department:</td>
-                <td style={{ padding: '8px 0' }}>{data.department}</td>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Department:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.department}</td>
+              </tr>
+              <tr style={{ backgroundColor: '#f5f5f5' }}>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>College/School:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.college}</td>
               </tr>
               <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>College:</td>
-                <td style={{ padding: '8px 0' }}>{data.college}</td>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Employment Status:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>Full-time Faculty Member</td>
+              </tr>
+              <tr style={{ backgroundColor: '#f5f5f5' }}>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Date of Appointment:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.hireDate}</td>
               </tr>
               <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Position:</td>
-                <td style={{ padding: '8px 0' }}>{data.position}</td>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Office Location:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.office}</td>
+              </tr>
+              <tr style={{ backgroundColor: '#f5f5f5' }}>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>Contact Phone:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.phone}</td>
               </tr>
               <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Employment Status:</td>
-                <td style={{ padding: '8px 0' }}>Full-time Faculty Member</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Date of Hire:</td>
-                <td style={{ padding: '8px 0' }}>{data.hireDate}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '8px 0', fontWeight: 'bold' }}>Annual Salary:</td>
-                <td style={{ padding: '8px 0' }}>{data.salaryFormatted}</td>
+                <td style={{ padding: '10px', fontWeight: 'bold', border: '1px solid #000' }}>University Email:</td>
+                <td style={{ padding: '10px', border: '1px solid #000' }}>{data.email}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div style={{ marginBottom: '25px' }}>
-          <strong>Teaching Responsibilities:</strong>
+        <div style={{ marginBottom: '20px' }}>
+          <strong>Primary Teaching Areas:</strong><br />
+          The faculty member teaches courses in the {data.department} department, with primary 
+          responsibilities in the following subject areas:
         </div>
 
-        <div style={{ marginBottom: '25px', paddingLeft: '20px' }}>
-          {data.teacherFullName} is responsible for teaching courses in {data.department}, including but not limited to:
-          <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+        <div style={{ marginBottom: '25px', marginLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px' }}>
             {data.subjects && data.subjects.map((subject, index) => (
-              <li key={index} style={{ marginBottom: '5px' }}>{subject}</li>
+              <li key={index} style={{ marginBottom: '3px' }}>• {subject}</li>
             ))}
           </ul>
         </div>
 
-        <div style={{ marginBottom: '25px' }}>
-          {data.teacherFullName} has been a valued member of our faculty and has consistently 
-          demonstrated professionalism, dedication, and excellence in teaching and research. 
-          They are currently employed in good standing with no disciplinary actions on record.
+        <div style={{ marginBottom: '20px' }}>
+          <strong>Employment Status & Performance:</strong><br />
+          {data.teacherFullName} maintains active employment status and is in good standing with 
+          the university. Their performance meets all institutional standards and expectations. 
+          There are no pending disciplinary actions or performance concerns on record.
         </div>
 
-        <div style={{ marginBottom: '30px' }}>
-          This letter is issued at the request of the employee and is valid as of the date mentioned above. 
-          Should you require any additional information, please feel free to contact our Human Resources 
-          Department at (555) 123-4500.
+        <div style={{ marginBottom: '25px' }}>
+          This verification letter is issued for official purposes at the employee's request. 
+          The information contained herein is accurate as of the date of issuance. For any 
+          additional verification or clarification, please contact the Human Resources Department 
+          directly at the coordinates provided above.
         </div>
       </div>
 
       {/* Closing */}
-      <div style={{ marginBottom: '60px', fontSize: '16px' }}>
-        <div style={{ marginBottom: '10px' }}>Sincerely,</div>
+      <div style={{ marginBottom: '40px', fontSize: '14px' }}>
+        <div style={{ marginBottom: '8px' }}>Respectfully yours,</div>
       </div>
 
       {/* Signature */}
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'flex-start',
-        marginBottom: '30px'
+        justifyContent: 'space-between',
+        marginBottom: '40px'
       }}>
         <div>
           <div style={{ 
-            borderBottom: '2px solid #333', 
-            width: '250px', 
-            marginBottom: '10px',
+            borderBottom: '1px solid #000', 
+            width: '300px', 
+            marginBottom: '8px',
             height: '40px'
           }} />
-          <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
-            {data.officials?.hr || 'HR Director'}
+          <div style={{ fontSize: '14px', fontWeight: 'bold' }}>
+            {data.officials?.hr}
           </div>
-          <div style={{ fontSize: '14px', color: '#6b7280' }}>
+          <div style={{ fontSize: '12px', marginBottom: '4px' }}>
             Director, Human Resources
           </div>
-          <div style={{ fontSize: '14px', color: '#6b7280' }}>
+          <div style={{ fontSize: '12px' }}>
             {data.universityName}
+          </div>
+          <div style={{ fontSize: '11px', marginTop: '8px' }}>
+            Direct: (555) 123-4502<br />
+            Email: {data.officials?.hr?.toLowerCase().replace(/\s+/g, '.')}@{data.universityName?.toLowerCase().replace(/\s+/g, '')}.edu
+          </div>
+        </div>
+        
+        <div style={{ textAlign: 'right', fontSize: '12px' }}>
+          <div style={{ marginBottom: '8px', fontWeight: 'bold' }}>
+            OFFICIAL SEAL
+          </div>
+          <div style={{ 
+            width: '100px', 
+            height: '100px', 
+            border: '2px solid #000', 
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '10px',
+            fontWeight: 'bold',
+            textAlign: 'center'
+          }}>
+            {data.universityAbbr}<br />
+            OFFICIAL<br />
+            SEAL
           </div>
         </div>
       </div>
 
       {/* Footer */}
       <div style={{ 
-        borderTop: '1px solid #e5e7eb',
-        paddingTop: '20px',
-        fontSize: '12px',
-        color: '#6b7280',
+        borderTop: '2px solid #000',
+        paddingTop: '15px',
+        fontSize: '10px',
+        color: '#000',
         textAlign: 'center'
       }}>
-        This document is computer generated and does not require a signature if issued electronically.
-        <br />
-        For verification purposes, please contact HR at hr@{data.universityName?.toLowerCase().replace(/\s+/g, '')}.edu
+        <div style={{ marginBottom: '4px', fontWeight: 'bold' }}>
+          CONFIDENTIAL EMPLOYMENT VERIFICATION
+        </div>
+        <div>
+          This verification is issued for official purposes only and contains confidential employment information. 
+          Unauthorized use or reproduction is prohibited.
+        </div>
+        <div style={{ marginTop: '8px' }}>
+          For verification authenticity, contact HR Department: (555) 123-4500 | Reference: {data.employeeID}
+        </div>
       </div>
     </div>
   );

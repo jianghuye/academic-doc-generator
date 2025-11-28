@@ -240,53 +240,122 @@ export const generateTeacherData = () => {
   const title = faker.helpers.arrayElement(['Dr.', 'Prof.', 'Mr.', 'Ms.', 'Mrs.']);
 
   // University/Institution
-  const institution = "Hachimi University";
+  const universities = [
+    { name: "California State University", city: "Los Angeles", state: "CA", abbr: "CSU" },
+    { name: "University of Texas", city: "Austin", state: "TX", abbr: "UT" },
+    { name: "Florida International University", city: "Miami", state: "FL", abbr: "FIU" },
+    { name: "Arizona State University", city: "Tempe", state: "AZ", abbr: "ASU" },
+    { name: "George Mason University", city: "Fairfax", state: "VA", abbr: "GMU" }
+  ];
+  const selectedUniversity = faker.helpers.arrayElement(universities);
   
   // Department and subjects
   const departments = [
-    { name: "Computer Science", college: "College of Science and Engineering", subjects: ["Data Structures", "Algorithm Design", "Software Engineering", "Database Systems"] },
-    { name: "Mathematics", college: "College of Science and Engineering", subjects: ["Calculus", "Linear Algebra", "Statistics", "Discrete Mathematics"] },
-    { name: "Business Administration", college: "McCoy College of Business", subjects: ["Management", "Marketing", "Finance", "Economics"] },
-    { name: "Psychology", college: "College of Liberal Arts", subjects: ["Cognitive Psychology", "Social Psychology", "Research Methods", "Abnormal Psychology"] },
-    { name: "English Literature", college: "College of Liberal Arts", subjects: ["Creative Writing", "American Literature", "Composition", "Literary Theory"] }
+    { 
+      name: "Computer Science", 
+      college: "College of Engineering and Computer Science", 
+      subjects: ["Data Structures and Algorithms", "Software Engineering", "Database Management Systems", "Computer Networks"],
+      positions: ["Assistant Professor", "Associate Professor", "Professor", "Lecturer"]
+    },
+    { 
+      name: "Mathematics", 
+      college: "College of Natural Sciences and Mathematics", 
+      subjects: ["Calculus I & II", "Linear Algebra", "Statistical Methods", "Discrete Mathematics"],
+      positions: ["Assistant Professor", "Associate Professor", "Professor"]
+    },
+    { 
+      name: "Business Administration", 
+      college: "School of Business", 
+      subjects: ["Principles of Management", "Marketing Strategy", "Corporate Finance", "Macroeconomics"],
+      positions: ["Assistant Professor", "Associate Professor", "Professor", "Clinical Professor"]
+    },
+    { 
+      name: "Psychology", 
+      college: "College of Liberal Arts and Social Sciences", 
+      subjects: ["Introduction to Psychology", "Research Methods", "Cognitive Psychology", "Abnormal Psychology"],
+      positions: ["Assistant Professor", "Associate Professor", "Professor"]
+    },
+    { 
+      name: "English", 
+      college: "College of Liberal Arts and Social Sciences", 
+      subjects: ["Composition and Rhetoric", "American Literature", "Creative Writing", "Literary Analysis"],
+      positions: ["Assistant Professor", "Associate Professor", "Professor", "Lecturer"]
+    }
   ];
 
   const selectedDepartment = faker.helpers.arrayElement(departments);
   
   // Employment details
-  const hireDate = faker.date.past({ years: faker.number.int({ min: 2, max: 15 }) });
-  const employeeId = `FAC-${faker.string.numeric(4)}`;
+  const hireDate = faker.date.past({ years: faker.number.int({ min: 1, max: 12 }) });
+  const employeeId = `${selectedUniversity.abbr}-${faker.string.numeric(6)}`;
   
   // Teacher ID Card dates
   const idIssueDate = new Date(hireDate);
   idIssueDate.setDate(idIssueDate.getDate() + faker.number.int({ min: 30, max: 90 }));
   const idValidDate = new Date(idIssueDate);
-  idValidDate.setFullYear(idValidDate.getFullYear() + 3);
+  idValidDate.setFullYear(idValidDate.getFullYear() + 4);
 
   // Teaching certificate
-  const certificationDate = faker.date.past({ years: faker.number.int({ min: 5, max: 20 }) });
+  const certificationDate = new Date(hireDate);
+  certificationDate.setMonth(certificationDate.getMonth() - faker.number.int({ min: 6, max: 24 }));
   
-  // Salary details
-  const baseSalary = faker.number.int({ min: 45000, max: 95000 });
+  // Salary details (more realistic ranges by position)
+  const position = faker.helpers.arrayElement(selectedDepartment.positions);
+  let baseSalary;
+  switch(position) {
+    case "Lecturer":
+      baseSalary = faker.number.int({ min: 45000, max: 65000 });
+      break;
+    case "Assistant Professor":
+      baseSalary = faker.number.int({ min: 65000, max: 85000 });
+      break;
+    case "Associate Professor":
+      baseSalary = faker.number.int({ min: 80000, max: 110000 });
+      break;
+    case "Professor":
+      baseSalary = faker.number.int({ min: 100000, max: 140000 });
+      break;
+    case "Clinical Professor":
+      baseSalary = faker.number.int({ min: 90000, max: 120000 });
+      break;
+    default:
+      baseSalary = faker.number.int({ min: 65000, max: 95000 });
+  }
+  
   const payPeriodStart = faker.date.recent({ days: 30 });
   const payPeriodEnd = new Date(payPeriodStart);
   payPeriodEnd.setDate(payPeriodEnd.getDate() + 14);
 
+  // Office and contact details
+  const building = faker.helpers.arrayElement(['Science Building', 'Engineering Hall', 'Liberal Arts Center', 'Business Complex', 'Academic Center']);
+  const officeNumber = `${faker.number.int({ min: 1, max: 5 })}${faker.string.numeric(2)}`;
+  const phoneExt = faker.string.numeric(4);
+
   return {
     // Basic Info
-    universityName: institution,
+    universityName: selectedUniversity.name,
+    universityCity: selectedUniversity.city,
+    universityState: selectedUniversity.state,
+    universityAbbr: selectedUniversity.abbr,
     universityLogo: '/university-logo.png',
-    universityAddress: `${faker.number.int({min: 100, max: 9999})} University Blvd, ${faker.location.city()}, ${faker.location.state({ abbreviated: true })}, ${faker.location.zipCode()}`,
+    universityAddress: `${faker.number.int({min: 100, max: 9999})} University Drive, ${selectedUniversity.city}, ${selectedUniversity.state} ${faker.location.zipCode()}`,
     teacherTitle: title,
     teacherName: `${lastName}, ${firstName}`,
+    teacherFirstName: firstName,
+    teacherLastName: lastName,
     teacherFullName: `${title} ${firstName} ${lastName}`,
     employeeID: employeeId,
-    address: `${faker.location.streetAddress()}, ${faker.location.city()}, ${faker.location.state()}`,
+    address: `${faker.location.streetAddress()}, ${faker.location.city()}, ${selectedUniversity.state} ${faker.location.zipCode()}`,
+    
+    // Office Info
+    office: `${building}, Room ${officeNumber}`,
+    phone: `(${faker.string.numeric(3)}) ${faker.string.numeric(3)}-${faker.string.numeric(4)} ext. ${phoneExt}`,
+    email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${selectedUniversity.name.toLowerCase().replace(/\s+/g, '')}.edu`,
     
     // Academic Info
     department: selectedDepartment.name,
     college: selectedDepartment.college,
-    position: faker.helpers.arrayElement(['Assistant Professor', 'Associate Professor', 'Professor', 'Lecturer', 'Adjunct Professor']),
+    position: position,
     subjects: selectedDepartment.subjects,
     
     // Dates
@@ -307,9 +376,10 @@ export const generateTeacherData = () => {
     
     // Officials
     officials: {
-      dean: `${faker.person.lastName()}, ${faker.person.firstName()} (PhD)`,
-      hr: `${faker.person.lastName()}, ${faker.person.firstName()}`,
-      principal: `${faker.person.lastName()}, ${faker.person.firstName()} (EdD)`
+      dean: `Dr. ${faker.person.firstName()} ${faker.person.lastName()}`,
+      hr: `${faker.person.firstName()} ${faker.person.lastName()}`,
+      principal: `Dr. ${faker.person.firstName()} ${faker.person.lastName()}`,
+      provost: `Dr. ${faker.person.firstName()} ${faker.person.lastName()}`
     },
     
     teacherPhoto: null
